@@ -49,14 +49,22 @@ class BinarySearchTree():
         parentNode = None
         currentNode = self.root
         while True:
-            if value < currentNode.value:
+            if value < currentNode.value and currentNode.left != None:
                 parentNode = currentNode
                 currentNode = currentNode.left
-            elif value > currentNode.value:
+            elif value > currentNode.value and currentNode.right != None:
                 parentNode = currentNode
                 currentNode = currentNode.right
             elif value == currentNode.value:
-                if currentNode.left == None and currentNode.right == None:
+                if currentNode.right == None:
+                    parentNode.left = currentNode.left
+                    currentNode = parentNode.left
+                    break
+                elif currentNode.left == None:
+                    parentNode.right = currentNode.right
+                    currentNode = parentNode.right
+                    break
+                elif currentNode.left == None and currentNode.right == None:
                     if currentNode is parentNode.right:
                         parentNode.right = None
                         parentNode = currentNode
@@ -65,7 +73,7 @@ class BinarySearchTree():
                         parentNode.left = None
                         parentNode = currentNode
                         break
-                if currentNode.right != None and currentNode.right.left == None:
+                elif currentNode.right != None and currentNode.right.left == None:
                     if currentNode is parentNode.left:
                         if currentNode.right.right != None:
                             parentNode.left = currentNode.right
@@ -90,7 +98,7 @@ class BinarySearchTree():
                             parentNode.right.right = None
                             parentNode.right.left = currentNode.left
                             break
-                if currentNode.right != None and currentNode.right.left != None:
+                elif currentNode.right != None and currentNode.right.left != None:
                     if currentNode is parentNode.left:
                         if currentNode.right.right != None:
                             parentNode.left = currentNode.right.left
@@ -122,7 +130,7 @@ class BinarySearchTree():
                             currentNode.right.left = None
                             parentNode.right.right.left = None
                             break                           
-                if currentNode.right.right == None :
+                elif currentNode.right.right == None :
                     if currentNode is parentNode.left:
                         parentNode.left = currentNode.right
                         currentNode.right = None
@@ -135,8 +143,7 @@ class BinarySearchTree():
                         if currentNode.left.left == None:
                             parentNode.right.left = currentNode.left
                         break
-
-                if currentNode.left.left == None :
+                elif currentNode.left.left == None :
                     if currentNode is parentNode.left:
                         parentNode.left = currentNode.left
                         currentNode.left = None
@@ -154,7 +161,7 @@ m.insert(50)
 m.insert(45)
 m.insert(40)
 m.insert(35)
-# m.insert(34)
+m.insert(30)
 m.insert(36)
 m.insert(37)
 m.insert(44)
@@ -169,6 +176,5 @@ m.insert(62)
 m.insert(70)
 m.insert(72)
 m.insert(66)
-# m.remove(35)
-m.remove(35)
-print(m.root.left.left.left.value)
+m.remove(65)
+print(m.root.right.value)
